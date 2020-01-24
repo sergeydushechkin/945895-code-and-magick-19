@@ -18,53 +18,74 @@ var createStatWindow = function (ctx, x, y, color) {
   ctx.fillRect(x, y, STAT_WIDTH, STAT_HEIGHT);
 };
 
-window.renderStatistics = function (ctx, names, times) {
-  // Рисуем окно статистики
-  createStatWindow(ctx, STAT_X + SHADOW_GAP, STAT_Y + SHADOW_GAP, 'rgba(0, 0, 0, 0.7)');
-  createStatWindow(ctx, STAT_X, STAT_Y, '#ffffff');
-
-  // Вывод заголовка
+// Вывод заголовка
+var printStatsHeader = function (ctx) {
   ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
   ctx.fillText('Ура вы победили!', STAT_X + STAT_GAP, STAT_Y + STAT_GAP + TEXT_HEIGHT);
   ctx.fillText('Список результатов:', STAT_X + STAT_GAP, STAT_Y + STAT_GAP + TEXT_HEIGHT + TEXT_HEIGHT);
+};
 
-  // Ищем максимальный элемент
-  var max = 0;
-  for (var index = 0; index < names.length; index++) {
-    if (times[index] > max) {
-      max = times[index];
+// Поиск максимального элемента
+var findMaxElement = function (elements) {
+  var element = 0;
+  for (var index = 0; index < elements.length; index++) {
+    if (elements[index] > element) {
+      element = elements[index];
     }
   }
+  return element;
+};
 
+// Печать имен
+var printPlayerName = function (ctx, playerNum, playerName) {
+  ctx.fillStyle = '#000000';
+  ctx.fillText(playerName,
+      STAT_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * playerNum,
+      STAT_HEIGHT + STAT_Y - STAT_GAP
+  );
+};
+
+// Рисование графика
+var printGraph = function (ctx, playerNum, playerName, playerTime, maxTime) {
+  // Считаем высоту графика
+  var barSize = (playerTime * BAR_HEIGHT) / maxTime;
+
+  // Выбор цвета графика
+  if (playerName === 'Вы') {
+    ctx.fillStyle = '#ff0000';
+  } else {
+    ctx.fillStyle = 'hsl(240, ' + Math.round(Math.random(100) * 100) + '%, 50%)';
+  }
+
+  // Рисуем график и время
+  ctx.fillRect(
+      STAT_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * playerNum,
+      STAT_HEIGHT + STAT_Y - STAT_GAP - TEXT_HEIGHT,
+      BAR_WIDTH,
+      -barSize
+  );
+  ctx.fillStyle = '#000000';
+  ctx.fillText(playerTime,
+      STAT_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * playerNum,
+      STAT_HEIGHT - barSize - STAT_GAP * 2
+  );
+};
+
+window.renderStatistics = function (ctx, names, times) {
+  // Рисуем окно статистики
+  createStatWindow(ctx, STAT_X + SHADOW_GAP, STAT_Y + SHADOW_GAP, 'rgba(0, 0, 0, 0.7)');
+  createStatWindow(ctx, STAT_X, STAT_Y, '#ffffff');
+  // Вывод заголовка
+  printStatsHeader(ctx);
+  // Ищем максимальный элемент
+  var max = findMaxElement(times);
   // Выводим графики
   for (var playerNum = 0; playerNum < names.length; playerNum++) {
     var time = Math.round(times[playerNum]); // Округляем время
-    var barSize = (time * BAR_HEIGHT) / max; // Считаем высоту графика
-
-    // Выводим имя и время
-    ctx.fillStyle = '#000000';
-    ctx.fillText(names[playerNum],
-        STAT_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * playerNum,
-        STAT_HEIGHT + STAT_Y - STAT_GAP
-    );
-    ctx.fillText(time,
-        STAT_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * playerNum,
-        STAT_HEIGHT - barSize - STAT_GAP * 2
-    );
-
-    // Рисуем график
-    // Выбор цвета графика
-    if (names[playerNum] === 'Вы') {
-      ctx.fillStyle = '#ff0000';
-    } else {
-      ctx.fillStyle = 'hsl(240, ' + Math.round(Math.random(100) * 100) + '%, 50%)';
-    }
-    ctx.fillRect(
-        STAT_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * playerNum,
-        STAT_HEIGHT + STAT_Y - STAT_GAP - TEXT_HEIGHT,
-        BAR_WIDTH,
-        -barSize
-    );
+    // Выводим имя
+    printPlayerName(ctx, playerNum, names[playerNum]);
+    // Рисуем график и время
+    printGraph(ctx, playerNum, names[playerNum], time, max);
   }
 };
