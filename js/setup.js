@@ -9,22 +9,41 @@ var WIZARDS_AMOUNT = 4;
 var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var wizardsList = document.querySelector('.setup-similar-list');
 
+// Генерацим имен волшебников
+var generateFullname = function () {
+  var fullname;
+
+  if (Math.random() > 0.5) {
+    fullname = WIZARDS_NAMES[Math.floor(Math.random() * WIZARDS_NAMES.length)] + ' ' + WIZARDS_SURNAMES[Math.floor(Math.random() * WIZARDS_SURNAMES.length)];
+  } else {
+    fullname = WIZARDS_SURNAMES[Math.floor(Math.random() * WIZARDS_SURNAMES.length)] + ' ' + WIZARDS_NAMES[Math.floor(Math.random() * WIZARDS_NAMES.length)];
+  }
+
+  return fullname;
+};
+
+// Случайные мантии
+var makeCoat = function () {
+  return COAT_COLORS[Math.floor(Math.random() * COAT_COLORS.length)];
+};
+
+// Случайные глаза
+var makeEyes = function () {
+  return EYES_COLORS[Math.floor(Math.random() * EYES_COLORS.length)];
+};
+
 // Генерация волшебников
 var generateWizzards = function (amount) {
   var wizardsResult = [];
+
   for (var index = 0; index < amount; index++) {
     var wizard = {};
-    if (Math.random() > 0.5) {
-      wizard.fullname = WIZARDS_NAMES[Math.floor(Math.random() * WIZARDS_NAMES.length)] + ' ' + WIZARDS_SURNAMES[Math.floor(Math.random() * WIZARDS_SURNAMES.length)];
-    } else {
-      wizard.fullname = WIZARDS_SURNAMES[Math.floor(Math.random() * WIZARDS_SURNAMES.length)] + ' ' + WIZARDS_NAMES[Math.floor(Math.random() * WIZARDS_NAMES.length)];
-    }
-
-    wizard.coatColor = COAT_COLORS[Math.floor(Math.random() * COAT_COLORS.length)];
-    wizard.eyesColor = EYES_COLORS[Math.floor(Math.random() * EYES_COLORS.length)];
-
+    wizard.fullname = generateFullname();
+    wizard.coatColor = makeCoat();
+    wizard.eyesColor = makeEyes();
     wizardsResult[index] = wizard;
   }
+
   return wizardsResult;
 };
 
