@@ -11,6 +11,12 @@
   var setupUserName = setupPopup.querySelector('.setup-user-name');
   var setupUpload = setupPopup.querySelector('.upload');
 
+  // Сбросить позицию окна персонажа
+  var resetPopupPosition = function () {
+    setupPopup.style.left = '';
+    setupPopup.style.top = '';
+  };
+
   // Показать попап с параметрами персонажа
   var openPopup = function () {
     setupPopup.classList.remove('hidden');
@@ -25,6 +31,7 @@
   // Убрать попап с параметрами персонажа
   var closePopup = function () {
     setupPopup.classList.add('hidden');
+    resetPopupPosition();
     document.removeEventListener('keydown', onFormEscKeydown);
     setupUserName.removeEventListener('invalid', onUserNameInvalid);
     setupUpload.removeEventListener('mousedown', onUploadMousedown);
