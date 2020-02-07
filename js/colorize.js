@@ -54,5 +54,6 @@
     onWizardCoatClick: onWizardCoatClick,
     onWizardEyesClick: onWizardEyesClick,
     onWizardFireballClick: onWizardFireballClick
-  }
+  };
+
 })();
