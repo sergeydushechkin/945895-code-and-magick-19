@@ -9,12 +9,14 @@
   var setupPopup = document.querySelector('.setup');
   var setupClose = setupPopup.querySelector('.setup-close');
   var setupUserName = setupPopup.querySelector('.setup-user-name');
+  var setupUpload = setupPopup.querySelector('.upload');
 
   // Показать попап с параметрами персонажа
   var openPopup = function () {
     setupPopup.classList.remove('hidden');
     document.addEventListener('keydown', onFormEscKeydown);
     setupUserName.addEventListener('input', onUserNameInvalid);
+    setupUpload.addEventListener('mousedown', onUploadMousedown);
     window.colorize.setupWizardCoat.addEventListener('click', window.colorize.onWizardCoatClick);
     window.colorize.setupWizardEyes.addEventListener('click', window.colorize.onWizardEyesClick);
     window.colorize.setupWizardFireball.addEventListener('click', window.colorize.onWizardFireballClick);
@@ -25,6 +27,7 @@
     setupPopup.classList.add('hidden');
     document.removeEventListener('keydown', onFormEscKeydown);
     setupUserName.removeEventListener('invalid', onUserNameInvalid);
+    setupUpload.removeEventListener('mousedown', onUploadMousedown);
     window.colorize.setupWizardCoat.removeEventListener('click', window.colorize.onWizardCoatClick);
     window.colorize.setupWizardEyes.removeEventListener('click', window.colorize.onWizardEyesClick);
     window.colorize.setupWizardFireball.removeEventListener('click', window.colorize.onWizardFireballClick);
@@ -39,6 +42,54 @@
         closePopup();
       }
     }
+  };
+
+  // Обрабатывает нажатую кнопку для перетаскивания
+  var onUploadMousedown = function (evt) {
+    evt.preventDefault();
+    var drag = false;
+    var mouse = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    // Если двигаем после нажатия
+    var onUploadMousemove = function (mousemoveEvt) {
+      mousemoveEvt.preventDefault();
+      drag = true;
+
+      var shift = {
+        x: mouse.x - mousemoveEvt.clientX,
+        y: mouse.y - mousemoveEvt.clientY
+      };
+
+      mouse = {
+        x: mousemoveEvt.clientX,
+        y: mousemoveEvt.clientY
+      };
+
+      setupPopup.style.left = (setupPopup.offsetLeft - shift.x) + 'px';
+      setupPopup.style.top = (setupPopup.offsetTop - shift.y) + 'px';
+    };
+
+    // Если отпускам кнопку
+    var onUploadMouseup = function () {
+      document.removeEventListener('mousemove', onUploadMousemove);
+      setupUpload.removeEventListener('mouseup', onUploadMouseup);
+
+      if (drag) {
+        // Отменяем клик поле перетаскивания
+        var onUploadPreventClick = function (clickEvt) {
+          clickEvt.preventDefault();
+          setupUpload.removeEventListener('click', onUploadPreventClick);
+        };
+
+        setupUpload.addEventListener('click', onUploadPreventClick);
+      }
+    };
+
+    document.addEventListener('mousemove', onUploadMousemove);
+    setupUpload.addEventListener('mouseup', onUploadMouseup);
   };
 
   // Валидация формы, событие invalid
