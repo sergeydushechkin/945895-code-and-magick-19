@@ -23,8 +23,20 @@
     return fragment;
   };
 
+  // Загружаем список волшебников
+  var loadWizardsSuccess = function (w) {
+    wizardsList.appendChild(fillWizardsElement(window.data.generateWizards(WIZARDS_AMOUNT)));
+  };
+
+  // Загружаем список волшебников
+  var loadWizardsError = function () {
+
+  };
+
   /* ---------------Основной код--------------- */
 
+  // wizardsList.appendChild(fillWizardsElement(window.data.generateWizards(WIZARDS_AMOUNT)));
+  window.backend.load(loadWizardsSuccess, loadWizardsError);
   wizardsList.appendChild(fillWizardsElement(window.data.generateWizards(WIZARDS_AMOUNT)));
 
 })();
