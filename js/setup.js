@@ -33,7 +33,7 @@
 
   // В случае ошибки при загрузке
   var loadWizardsError = function (errorText) {
-    console.log(errorText);
+    window.util.showMessage(errorText, 'red');
   };
 
   /* ---------------Основной код--------------- */
