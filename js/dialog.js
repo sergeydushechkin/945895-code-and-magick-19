@@ -10,6 +10,7 @@
   var setupClose = setupPopup.querySelector('.setup-close');
   var setupUserName = setupPopup.querySelector('.setup-user-name');
   var setupUpload = setupPopup.querySelector('.upload');
+  var setupWizardForm = setupPopup.querySelector('.setup-wizard-form');
 
   // Сбросить позицию окна персонажа
   var resetPopupPosition = function () {
@@ -23,6 +24,7 @@
     document.addEventListener('keydown', onFormEscKeydown);
     setupUserName.addEventListener('input', onUserNameInvalid);
     setupUpload.addEventListener('mousedown', onUploadMousedown);
+    setupWizardForm.addEventListener('submit', onSetupFormSubmit);
     window.colorize.setupWizardCoat.addEventListener('click', window.colorize.onWizardCoatClick);
     window.colorize.setupWizardEyes.addEventListener('click', window.colorize.onWizardEyesClick);
     window.colorize.setupWizardFireball.addEventListener('click', window.colorize.onWizardFireballClick);
@@ -35,6 +37,7 @@
     document.removeEventListener('keydown', onFormEscKeydown);
     setupUserName.removeEventListener('invalid', onUserNameInvalid);
     setupUpload.removeEventListener('mousedown', onUploadMousedown);
+    setupWizardForm.removeEventListener('submit', onSetupFormSubmit);
     window.colorize.setupWizardCoat.removeEventListener('click', window.colorize.onWizardCoatClick);
     window.colorize.setupWizardEyes.removeEventListener('click', window.colorize.onWizardEyesClick);
     window.colorize.setupWizardFireball.removeEventListener('click', window.colorize.onWizardFireballClick);
@@ -111,6 +114,26 @@
       setupUserName.setCustomValidity('');
     }
   };
+
+  /* ---------------Обработчики--------------- */
+
+  // При удачной отправке данных
+  var onSetupFormLoad = function () {
+    window.util.showMessage('Данные успешно отправлены', 'green');
+    closePopup();
+  };
+
+  // При ошибке отправке данных
+  var onSetupFormError = function (errorText) {
+    window.util.showMessage(errorText, 'red');
+  };
+
+  // При отправке формы
+  var onSetupFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupWizardForm), onSetupFormLoad, onSetupFormError);
+  };
+
   /* ---------------Основной код--------------- */
 
   document.querySelector('.setup-similar').classList.remove('hidden');
