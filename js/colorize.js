@@ -2,6 +2,10 @@
 
 (function () {
 
+  var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+  var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+  var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+
   var setupPopup = document.querySelector('.setup');
 
   var setupWizardCoat = setupPopup.querySelector('.setup-wizard .wizard-coat');
@@ -24,29 +28,32 @@
     return indexValue;
   };
 
-  /* ---------------Обработчики--------------- */
-
   // Изменение цвета мантии
   var onWizardCoatClick = function () {
-    coatColorIndex = switchValue(coatColorIndex, window.data.COAT_COLORS.length);
-    setupWizardCoat.style.fill = window.data.COAT_COLORS[coatColorIndex];
-    coatColorInput.value = window.data.COAT_COLORS[coatColorIndex];
+    coatColorIndex = switchValue(coatColorIndex, COAT_COLORS.length);
+    var coatColor = COAT_COLORS[coatColorIndex];
+    setupWizardCoat.style.fill = coatColor;
+    coatColorInput.value = coatColor;
+    window.similar.onCoatChange(coatColor);
   };
 
   // Изменение цвета глаз
   var onWizardEyesClick = function () {
-    eyesColorIndex = switchValue(eyesColorIndex, window.data.EYES_COLORS.length);
-    setupWizardEyes.style.fill = window.data.EYES_COLORS[eyesColorIndex];
-    eyesColorInput.value = window.data.EYES_COLORS[eyesColorIndex];
+    eyesColorIndex = switchValue(eyesColorIndex, EYES_COLORS.length);
+    var eyesColor = EYES_COLORS[eyesColorIndex];
+    setupWizardEyes.style.fill = eyesColor;
+    eyesColorInput.value = eyesColor;
+    window.similar.onEyesChange(eyesColor);
   };
 
   // Изменение цвета фаерболов
   var onWizardFireballClick = function () {
-    fireballColorIndex = switchValue(fireballColorIndex, window.data.FIREBALL_COLORS.length);
-    setupWizardFireball.style.backgroundColor = window.data.FIREBALL_COLORS[fireballColorIndex];
-    fireballColorInput.value = window.data.FIREBALL_COLORS[fireballColorIndex];
+    fireballColorIndex = switchValue(fireballColorIndex, FIREBALL_COLORS.length);
+    setupWizardFireball.style.backgroundColor = FIREBALL_COLORS[fireballColorIndex];
+    fireballColorInput.value = FIREBALL_COLORS[fireballColorIndex];
   };
 
+  /* ---------------Экспорт--------------- */
   window.colorize = {
     setupWizardCoat: setupWizardCoat,
     setupWizardEyes: setupWizardEyes,

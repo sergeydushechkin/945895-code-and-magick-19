@@ -3,32 +3,32 @@
 (function () {
   var WIZARDS_AMOUNT = 4;
   var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-  var wizardsList = document.querySelector('.setup-similar-list');
+  var similarWizards = document.querySelector('.setup-similar-list');
+  var wizards = [];
 
   // Создает DOM-элементы с магов
-  var renderWizards = function (wizard) {
+  var fillWizardsElement = function (wizard) {
     var wizardModel = wizardTemplate.cloneNode(true);
-    // wizardModel.querySelector('.setup-similar-label').textContent = wizard.fullname;
     wizardModel.querySelector('.setup-similar-label').textContent = wizard.name;
-    // wizardModel.querySelector('.wizard-coat').style.fill = wizard.coatColor;
     wizardModel.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
-    // wizardModel.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
     wizardModel.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
     return wizardModel;
   };
 
   // Наполняет элемент волшебниками
-  var fillWizardsElement = function (wizards, amount) {
+  var renderWizards = function (wizardsList, amount) {
     var fragment = document.createDocumentFragment();
+    similarWizards.innerHTML = '';
     for (var index = 0; index < amount; index++) {
-      fragment.appendChild(renderWizards(wizards[index]));
+      fragment.appendChild(fillWizardsElement(wizardsList[index]));
     }
-    return fragment;
+    similarWizards.appendChild(fragment);
   };
 
   // Загружает список волшебников
-  var loadWizardsSuccess = function (wizards) {
-    wizardsList.appendChild(fillWizardsElement(wizards, WIZARDS_AMOUNT));
+  var loadWizardsSuccess = function (loadedWizards) {
+    window.setup.wizards = loadedWizards;
+    renderWizards(window.setup.wizards, WIZARDS_AMOUNT);
   };
 
   // В случае ошибки при загрузке
@@ -38,8 +38,14 @@
 
   /* ---------------Основной код--------------- */
 
-  // wizardsList.appendChild(fillWizardsElement(window.data.generateWizards(WIZARDS_AMOUNT)));
   window.backend.load(loadWizardsSuccess, loadWizardsError);
 
+  /* ---------------Экспорт--------------- */
+
+  window.setup = {
+    WIZARDS_AMOUNT: WIZARDS_AMOUNT,
+    wizards: wizards,
+    renderWizards: renderWizards
+  };
 
 })();
