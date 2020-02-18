@@ -18,6 +18,7 @@
   // Наполняет элемент волшебниками
   var renderWizards = function (wizardsList, amount) {
     var fragment = document.createDocumentFragment();
+    similarWizards.innerHTML = '';
     for (var index = 0; index < amount; index++) {
       fragment.appendChild(fillWizardsElement(wizardsList[index]));
     }
@@ -26,8 +27,8 @@
 
   // Загружает список волшебников
   var loadWizardsSuccess = function (loadedWizards) {
-    wizards = loadedWizards;
-    renderWizards(wizards, WIZARDS_AMOUNT);
+    window.setup.wizards = loadedWizards;
+    renderWizards(window.setup.wizards, WIZARDS_AMOUNT);
   };
 
   // В случае ошибки при загрузке

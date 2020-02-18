@@ -20,6 +20,9 @@
   var eyesColorIndex = 0;
   var fireballColorIndex = 0;
 
+  var coatColor = 0;
+  var eyesColor = 0;
+
   // Переключение значений циклически
   var switchValue = function (indexValue, max) {
     if (++indexValue >= max) {
@@ -33,17 +36,19 @@
   // Изменение цвета мантии
   var onWizardCoatClick = function () {
     coatColorIndex = switchValue(coatColorIndex, COAT_COLORS.length);
-    setupWizardCoat.style.fill = COAT_COLORS[coatColorIndex];
-    coatColorInput.value = COAT_COLORS[coatColorIndex];
-    window.similar.updateWizards();
+    coatColor = COAT_COLORS[coatColorIndex];
+    setupWizardCoat.style.fill = coatColor;
+    coatColorInput.value = coatColor;
+    window.similar.updateWizards(coatColor, eyesColor);
   };
 
   // Изменение цвета глаз
   var onWizardEyesClick = function () {
     eyesColorIndex = switchValue(eyesColorIndex, EYES_COLORS.length);
-    setupWizardEyes.style.fill = EYES_COLORS[eyesColorIndex];
-    eyesColorInput.value = EYES_COLORS[eyesColorIndex];
-    window.similar.updateWizards();
+    eyesColor = EYES_COLORS[eyesColorIndex];
+    setupWizardEyes.style.fill = eyesColor;
+    eyesColorInput.value = eyesColor;
+    window.similar.updateWizards(coatColor, eyesColor);
   };
 
   // Изменение цвета фаерболов
