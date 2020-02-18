@@ -29,9 +29,7 @@
   };
 
   // Обновляет список похожих волшебников
-  var updateWizards = function (coat, eyes) {
-    coatColor = coat;
-    eyesColor = eyes;
+  var updateWizards = function () {
     var similarWizzards = window.setup.wizards.sort(function (left, right) {
       var rankDiff = getRank(right) - getRank(left);
       if (!rankDiff) {
@@ -42,8 +40,21 @@
     window.setup.renderWizards(similarWizzards, window.setup.WIZARDS_AMOUNT);
   };
 
+  /* ---------------Обработчики--------------- */
+  var onCoatChange = window.debounce(function (coat) {
+    coatColor = coat;
+    updateWizards();
+  });
+
+  var onEyesChange = window.debounce(function (eyes) {
+    eyesColor = eyes;
+    updateWizards();
+  });
+
+  /* ---------------Экспорт--------------- */
   window.similar = {
-    updateWizards: updateWizards
+    onCoatChange: onCoatChange,
+    onEyesChange: onEyesChange
   };
 
 })();
