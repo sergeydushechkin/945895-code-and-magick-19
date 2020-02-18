@@ -3,7 +3,8 @@
 (function () {
   var WIZARDS_AMOUNT = 4;
   var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-  var wizardsList = document.querySelector('.setup-similar-list');
+  var similarWizards = document.querySelector('.setup-similar-list');
+  var wizards = [];
 
   // Создает DOM-элементы с магов
   var fillWizardsElement = function (wizard) {
@@ -15,16 +16,17 @@
   };
 
   // Наполняет элемент волшебниками
-  var renderWizards = function (wizards, amount) {
+  var renderWizards = function (wizardsList, amount) {
     var fragment = document.createDocumentFragment();
     for (var index = 0; index < amount; index++) {
-      fragment.appendChild(fillWizardsElement(wizards[index]));
+      fragment.appendChild(fillWizardsElement(wizardsList[index]));
     }
-    wizardsList.appendChild(fragment);
+    similarWizards.appendChild(fragment);
   };
 
   // Загружает список волшебников
-  var loadWizardsSuccess = function (wizards) {
+  var loadWizardsSuccess = function (loadedWizards) {
+    wizards = loadedWizards;
     renderWizards(wizards, WIZARDS_AMOUNT);
   };
 
@@ -37,5 +39,12 @@
 
   window.backend.load(loadWizardsSuccess, loadWizardsError);
 
+  /* ---------------Экспорт--------------- */
+
+  window.setup = {
+    WIZARDS_AMOUNT: WIZARDS_AMOUNT,
+    wizards: wizards,
+    renderWizards: renderWizards
+  };
 
 })();
