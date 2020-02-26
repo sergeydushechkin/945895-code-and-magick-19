@@ -28,6 +28,7 @@
     window.colorize.setupWizardCoat.addEventListener('click', window.colorize.onWizardCoatClick);
     window.colorize.setupWizardEyes.addEventListener('click', window.colorize.onWizardEyesClick);
     window.colorize.setupWizardFireball.addEventListener('click', window.colorize.onWizardFireballClick);
+    window.avatar.fileInput.addEventListener('change', window.avatar.onFileInputChange);
   };
 
   // Убрать попап с параметрами персонажа
@@ -41,6 +42,7 @@
     window.colorize.setupWizardCoat.removeEventListener('click', window.colorize.onWizardCoatClick);
     window.colorize.setupWizardEyes.removeEventListener('click', window.colorize.onWizardEyesClick);
     window.colorize.setupWizardFireball.removeEventListener('click', window.colorize.onWizardFireballClick);
+    window.avatar.fileInput.removeEventListener('change', window.avatar.onFileInputChange);
   };
 
   // Обработки нажатия кнопки ESC при открытых параметрах персонажа, останавливаем распространение если это имя
