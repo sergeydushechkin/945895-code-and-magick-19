@@ -2,8 +2,8 @@
 
 (function () {
 
-  var URL_LOAD = 'https://js.dump.academy/code-and-magick/data';
-  var URL_SAVE = 'https://js.dump.academy/code-and-magick';
+  var URL_LOAD = 'https://javascript.pages.academy/code-and-magick/data';
+  var URL_SAVE = 'https://javascript.pages.academy/code-and-magick';
   var STATUS_OK = 200;
 
   var load = function (onLoad, onError) {
